@@ -12,10 +12,9 @@ var CellEcology = function(state) {
       return count;
     },
     next_state: function() { 
-      if (this.has_living_cell() &&
-          (this.is_life_sustaining() || this.is_life_generating())) {
-        return true;
-      } else if (this.is_life_generating()) {
+      if (this.is_life_generating() ||
+          (this.has_living_cell() && this.is_life_sustaining())
+         ) {
         return true;
       }
       return false;
