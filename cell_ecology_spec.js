@@ -1,5 +1,23 @@
+var ecology;
+
+function cell_ecology(args) {
+  var num_neighbors = args.with_living_neighbors;
+  var predicate = args.should_be;
+
+  describe("with " + num_neighbors + " living neighbors", function() {
+    beforeEach(function() { 
+      _(num_neighbors).times(function() {
+        ecology.neighbors.push(CellEcology({cell_alive: true}));
+      });
+    });
+
+    it("should be " + predicate, function() {
+      expect(ecology["is_" + predicate]()).toEqual(true);
+    });
+  });
+}
+
 describe("A cell ecology containing a living cell", function() {
-  var ecology;
   beforeEach(function() {
     ecology = CellEcology({cell_alive: true});
   });
@@ -35,51 +53,10 @@ describe("A cell ecology containing a living cell", function() {
     });
   });
 
-  describe("with 1 live neighbor", function() {
-    beforeEach(function() { 
-      ecology.neighbors = [CellEcology({cell_alive: true})];
-    });
-
-    it("should be under populated", function() {
-      expect(ecology.is_underpopulated()).toEqual(true);
-    });
-  });
-
-  describe("with 2 living neighbors", function() {
-    beforeEach(function() { 
-      _(2).times(function() {
-        ecology.neighbors.push(CellEcology({cell_alive: true}));
-      });
-    });
-
-    it("should be life-sustaining", function() {
-      expect(ecology.is_life_sustaining()).toEqual(true);
-    });
-  });
-
-  describe("with 3 living neighbors", function() {
-    beforeEach(function() { 
-      _(3).times(function() {
-        ecology.neighbors.push(CellEcology({cell_alive: true}));
-      });
-    });
-
-    it("should be life-generating", function() {
-      expect(ecology.is_life_generating()).toEqual(true);
-    });
-  });
-
-  describe("with more than three living neighbors", function() {
-    beforeEach(function() { 
-      _(4).times(function() {
-        ecology.neighbors.push(CellEcology({cell_alive: true}));
-      });
-    });
-
-    it("should be over-crowded", function() {
-      expect(ecology.is_overcrowded()).toEqual(true);
-    });
-  });
+  cell_ecology({with_living_neighbors:1, should_be: "underpopulated"});
+  cell_ecology({with_living_neighbors:2, should_be: "life_sustaining"});
+  cell_ecology({with_living_neighbors:3, should_be: "life_generating"});
+  cell_ecology({with_living_neighbors:4, should_be: "overcrowded"});
 
   live_predicates = ["is_life_sustaining", "is_life_generating"];
   $.each(live_predicates, function(idx, predicate) {
@@ -94,6 +71,7 @@ describe("A cell ecology containing a living cell", function() {
       });
     });
   });
+
 });
 
 describe("A cell ecology containing a dead cell", function() {
@@ -102,29 +80,8 @@ describe("A cell ecology containing a dead cell", function() {
     ecology = CellEcology({cell_alive: false});
   });
 
-  describe("with 2 living neighbors", function() {
-    beforeEach(function() { 
-      _(2).times(function() {
-        ecology.neighbors.push(CellEcology({cell_alive: true}));
-      });
-    });
-
-    it("should be life-sustaining", function() {
-      expect(ecology.is_life_sustaining()).toEqual(true);
-    });
-  });
-
-  describe("with 3 living neighbors", function() {
-    beforeEach(function() { 
-      _(3).times(function() {
-        ecology.neighbors.push(CellEcology({cell_alive: true}));
-      });
-    });
-
-    it("should be life-generating", function() {
-      expect(ecology.is_life_generating()).toEqual(true);
-    });
-  });
+  cell_ecology({with_living_neighbors: 2, should_be: "life_sustaining"});
+  cell_ecology({with_living_neighbors: 3, should_be: "life_generating"});
 
   describe("where the ecology is life generating", function() {
     beforeEach(function() {
