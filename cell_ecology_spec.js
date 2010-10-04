@@ -61,16 +61,7 @@ describe("A cell ecology containing a dead cell", function() {
 
   next_cell_state({where_ecology: "is_under_populated", should_be: "dead"});
   next_cell_state({where_ecology: "is_life_sustaining", should_be: "dead"});
-
-  describe("where the ecology is life generating", function() {
-    beforeEach(function() {
-      ecology.is_life_generating = function() { return true };
-    });
-
-    it("should have a living cell after transitioning", function() {
-      expect(ecology.next_state()).toEqual(true);
-    });
-  });
+  next_cell_state({where_ecology: "is_life_generating", should_be: "alive"});
 });
 
 function cell_ecology(args) {
