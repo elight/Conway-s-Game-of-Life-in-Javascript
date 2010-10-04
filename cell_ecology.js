@@ -1,5 +1,6 @@
 var CellEcology = function(state) {
   return {
+    neighbors: [],
     has_living_cell: function() { return state.cell_alive; },
     num_living_neighbors: function() { 
       var count = 0;
@@ -11,14 +12,26 @@ var CellEcology = function(state) {
       return count;
     },
     next_state: function() { 
-      if (this.num_living_neighbors() == 2) {
-        return this.has_living_cell();
-      } else if (this.num_living_neighbors() == 3) {
-        return true; 
+      if (this.has_living_cell() &&
+          (this.is_life_sustaining() || this.is_life_generating())) {
+        return true;
+      } else if (this.is_life_generating()) {
+        return true;
       }
       return false;
     },
-    neighbors: []
+    is_underpopulated: function() {
+      return this.num_living_neighbors() < 2;
+    },
+    is_life_sustaining: function() {
+      return this.num_living_neighbors() == 2;
+    },
+    is_life_generating: function() {
+      return this.num_living_neighbors() == 3;
+    },
+    is_overcrowded: function() {
+      return this.num_living_neighbors() >= 4;
+    }
   }
 };
 
