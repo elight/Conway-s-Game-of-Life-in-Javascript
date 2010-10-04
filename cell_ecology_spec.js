@@ -47,8 +47,10 @@ describe("A cell ecology containing a living cell", function() {
   cell_ecology({with_living_neighbors:3, should_be: "life_generating"});
   cell_ecology({with_living_neighbors:4, should_be: "overcrowded"});
 
+  next_cell_state({where_ecology: "is_under_populated", should_be: "dead"});
   next_cell_state({where_ecology:"is_life_sustaining", should_be: "alive"});
   next_cell_state({where_ecology:"is_life_generating", should_be: "alive"});
+  next_cell_state({where_ecology: "is_overcrowded", should_be: "dead"});
 });
 
 describe("A cell ecology containing a dead cell", function() {
@@ -62,6 +64,7 @@ describe("A cell ecology containing a dead cell", function() {
   next_cell_state({where_ecology: "is_under_populated", should_be: "dead"});
   next_cell_state({where_ecology: "is_life_sustaining", should_be: "dead"});
   next_cell_state({where_ecology: "is_life_generating", should_be: "alive"});
+  next_cell_state({where_ecology: "is_overcrowded", should_be: "dead"});
 });
 
 function cell_ecology(args) {
