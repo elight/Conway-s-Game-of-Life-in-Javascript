@@ -11,14 +11,6 @@ var CellEcology = function(state) {
       });
       return count;
     },
-    next_state: function() { 
-      if (this.is_life_generating() ||
-          (this.has_living_cell() && this.is_life_sustaining())
-         ) {
-        return true;
-      }
-      return false;
-    },
     is_underpopulated: function() {
       return this.num_living_neighbors() < 2;
     },
@@ -30,6 +22,14 @@ var CellEcology = function(state) {
     },
     is_overcrowded: function() {
       return this.num_living_neighbors() >= 4;
+    },
+    next_state: function() { 
+      if (this.is_life_generating() ||
+          (this.has_living_cell() && this.is_life_sustaining())
+         ) {
+        return true;
+      }
+      return false;
     }
   }
 };
