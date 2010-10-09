@@ -59,8 +59,7 @@ assert_cell_ecology = (args) ->
 
   describe "with " + num_neighbors + " living neighbors", ->
     beforeEach ->
-      count = num_neighbors
-      while (count -= 1)
+      for i in [1..num_neighbors]
         ecology.neighbors.push CellEcology cell_alive: true
 
     it "should be " + predicate ->
