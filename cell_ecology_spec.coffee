@@ -23,7 +23,6 @@ next_cell_state = (args) ->
       ecology[ecology_state] = -> true
 
     it "should have a " + life_adjective + " cell after transitioning", ->
-      console.debug life_adjective
       expect(ecology.next_state()).toEqual expected_cell_state
 
 #= Spec starts below
