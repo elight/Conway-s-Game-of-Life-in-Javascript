@@ -16,7 +16,7 @@ assert_cell_ecology = (args) ->
 next_cell_state = (args) ->
   ecology_state = args.where_ecology
   expected_cell_state = args.should_be == "alive"
-  life_adjective = expected_cell_state ? "living" : "dead"
+  life_adjective = if expected_cell_state then "living" else "dead"
 
   describe "where the ecology " + ecology_state, ->
     beforeEach ->
