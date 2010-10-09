@@ -5,17 +5,17 @@
   <title>Jasmine Test Runner</title>
   <link rel="stylesheet" type="text/css" href="jasmine/lib/jasmine.css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="underscore.js"></script>
+  <script type="text/javascript" src="coffee-script.js"></script>
   <script type="text/javascript" src="jasmine/lib/jasmine.js"></script>
   <script type="text/javascript" src="jasmine/lib/jasmine-html.js"></script>
 </head>
 <body>
 <script type="text/javascript" src="cell_ecology.js"></script>
 <script type="text/javascript" src="game_of_life_grid.js"></script>
-<script type="text/javascript" src="cell_ecology_spec.js"></script>
+<script type="text/coffeescript" src="cell_ecology_spec.coffee"></script>
 <script type="text/javascript" src="grid_ecology_spec.js"></script>
-<script type="text/javascript">
-  jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
+<script type="text/coffeescript">
+  jasmine.getEnv().addReporter new jasmine.TrivialReporter()
   jasmine.getEnv().execute();
 </script>
 </body>
