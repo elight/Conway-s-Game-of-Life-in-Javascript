@@ -54,8 +54,13 @@ describe("A 2 x 2 game of life", function() {
 
   it("should assign neighbors to each cell when the grid is created", function() {
     grid = GameOfLifeGrid(input_state);
-    expect(grid.get(0, 0).neighbors.length).toEqual(3);
-    expect(grid.get(0, 0).num_living_neighbors()).toEqual(2);
+    var x, y;
+    for(x = 0; x < 2; x++) {
+      for(y = 0; y < 2; y++) {
+        expect(grid.get(x, y).neighbors.length).toEqual(3);
+      }
+    }
+
   });
 });
 
