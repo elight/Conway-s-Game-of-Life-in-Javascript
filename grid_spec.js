@@ -92,7 +92,7 @@ describe("A 2 x 2 game of life", function() {
   });
 });
 
-xdescribe("A 3 x 3 game of life", function() {
+describe("A 3 x 3 game of life", function() {
   it("should be able to transition to its next state", function() {
     var input_state = [
       [1, 1, 1],
