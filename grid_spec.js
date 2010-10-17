@@ -63,6 +63,7 @@ describe("A 2 x 2 game of life", function() {
     _(2).times(function(x) {
       _(2).times(function(y) {
         var ecology = grid.get(x, y);
+        expect(ecology.neighbors.length).toEqual(3);
         _(2).times(function(x_prime) {
           _(2).times(function(y_prime) {
             if (!(x == x_prime && y == y_prime)) {
