@@ -1,0 +1,5 @@
+If using Lifewiki plaintext input:
+(1) Must run in Firefox because of evil CDATA hack.
+(2) Increase num rows and num cols by 2 when passing into the JS
+
+Yeah, evil kluges, I know.
