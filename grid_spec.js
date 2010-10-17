@@ -49,10 +49,14 @@ describe("A 2 x 2 game of life", function() {
     ];
   });
 
-  xit("should be able to transition to its next state", function() {
+  it("should be able to transition to its next state", function() {
     grid = new GameOfLifeGrid(input_state);
     grid.iterate();
-    expect(grid.state()).toEqual(expected_state);
+    _(2).times(function(x) {
+      _(2).times(function(y) {
+        expect(grid.get(x,y).has_living_cell()).toBeTruthy();
+      });
+    });
   });
 
   it("should assign all of the other cells as the neighbor to each cell", function() {

@@ -43,6 +43,26 @@ function GameOfLifeGrid(board) {
     });
   }
 
+  var compute_iteration_grid = function() {
+    var iteration_grid = [];
+    _(me.grid.length).times(function(x) {
+      var row = [];
+      iteration_grid.push(row);
+      _(me.grid.length).times(function(y) {
+        row.push(me.grid[x][y].next_state());
+      });
+    });
+    return iteration_grid;
+  };
+
+  var modify_grid_state_using = function(iteration_grid) {
+    _(me.grid.length).times(function(x) {
+      _(me.grid.length).times(function(y) {
+        me.grid[x][y].alive = iteration_grid[x][y];
+      });
+    });
+  };
+
   _(board.length).times(function(idx) {
     if (board.length != board[idx].length) {
       throw "M x N not allowed";
@@ -60,10 +80,8 @@ function GameOfLifeGrid(board) {
   this.get = function(x, y) { return me.grid[x][y] };
 
   this.iterate = function() { 
-    this.board = [
-      [1, 1],
-      [1, 1]
-    ];
+    var iteration_grid = compute_iteration_grid();
+    modify_grid_state_using(iteration_grid);
   };
 
 };
