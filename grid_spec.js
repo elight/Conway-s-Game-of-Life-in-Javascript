@@ -56,6 +56,8 @@ describe("A 2 x 2 game of life", function() {
   });
 
   it("should assign all of the other cells as the neighbor to each cell", function() {
+    // I hate this spec. But I also don't want to write this spec, sans inner loop, 4 times...
+    // or sans outer loop 16 times.  Fuck... that... shit.
     grid = new GameOfLifeGrid(input_state);
     var x, y;
     _(2).times(function(x) {
