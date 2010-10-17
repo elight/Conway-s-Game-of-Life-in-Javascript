@@ -75,7 +75,17 @@ function GameOfLifeGrid(board) {
 
   this.size = function() { return me.grid.length };
 
-  this.state = function() { return board; };
+  this.state = function() { 
+    var serialized = [];
+    _(me.grid.length).times(function(x) {
+      var row = [];
+      serialized.push(row);
+      _(me.grid.length).times(function(y) {
+        row.push(me.grid[x][y].alive ? 1 : 0);
+      });
+    });
+    return serialized;
+  };
 
   this.get = function(x, y) { return me.grid[x][y] };
 
