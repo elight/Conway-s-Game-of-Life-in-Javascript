@@ -1,10 +1,10 @@
-function GameOfLifeGrid(board, height, lifewiki_input) {
+function GameOfLifeGrid(board, num_cols, lifewiki_input) {
   var populate_grid_from = function(board) {
     var grid = [];
-    _(me.width).times(function(x) {
+    _(me.num_rows).times(function(x) {
       var row = [];
       grid.push(row);
-      _(me.height).times(function(y) {
+      _(me.num_cols).times(function(y) {
         var alive = board[x][y] == 1;
         row.push(new CellEcology({cell_alive: alive}));
       });
@@ -12,8 +12,32 @@ function GameOfLifeGrid(board, height, lifewiki_input) {
     return grid;
   };
 
+  var populate_grid_from_lifewiki = function(lifewiki) {
+    var lifewiki_lines = lifewiki.split("\n");
+    var grid = [];
+    _(me.num_rows).times(function(x) {
+      var row = [];
+      grid.push(row);
+      if (x == 0 || x == me.num_rows -1) {
+        _(me.num_cols).times(function(y) {
+          row.push(new CellEcology({cell_alive: false}));
+        });
+      } else {
+        _(me.num_cols).times(function(y) {
+          if (y == 0 || y == me.num_cols) {
+            row.push(new CellEcology({cell_alive: false}));
+          } else {
+            var alive = lifewiki_input == "O";
+            row.push(new CellEcology({cell_alive: lifewiki_lines[y][x] == "O" }));
+          }
+        });
+      }
+    });
+    return grid;
+  };
+
   var is_in_bounds = function(x, y) {
-    return x < me.width && x >= 0 && y < me.height && y >= 0;
+    return x < me.num_rows && x >= 0 && y < me.num_cols && y >= 0;
   }
 
   var connect_neighbors_to_ecology_at = function(x, y) {
@@ -36,8 +60,8 @@ function GameOfLifeGrid(board, height, lifewiki_input) {
   }
 
   var connect_neighbors_in = function(grid) {
-    _(me.width).times(function(x) {
-      _(me.height).times(function(y) {
+    _(me.num_rows).times(function(x) {
+      _(me.num_cols).times(function(y) {
         connect_neighbors_to_ecology_at(x, y);
       });
     });
@@ -45,10 +69,10 @@ function GameOfLifeGrid(board, height, lifewiki_input) {
 
   var compute_iteration_grid = function() {
     var iteration_grid = [];
-    _(me.width).times(function(x) {
+    _(me.num_rows).times(function(x) {
       var row = [];
       iteration_grid.push(row);
-      _(me.height).times(function(y) {
+      _(me.num_cols).times(function(y) {
         row.push(me.grid[x][y].next_state());
       });
     });
@@ -56,8 +80,8 @@ function GameOfLifeGrid(board, height, lifewiki_input) {
   };
 
   var modify_grid_state_using = function(iteration_grid) {
-    _(me.width).times(function(x) {
-      _(me.height).times(function(y) {
+    _(me.num_rows).times(function(x) {
+      _(me.num_cols).times(function(y) {
         me.grid[x][y].alive = iteration_grid[x][y];
       });
     });
@@ -65,24 +89,25 @@ function GameOfLifeGrid(board, height, lifewiki_input) {
 
   var me = this;
   if ((typeof board) == "object") {
-    this.width = board.length;
-    this.height = board.length;
+    this.num_rows = board.length;
+    this.num_cols = board.length;
     this.grid = populate_grid_from(board);
-    connect_neighbors_in(this.grid);
   } else if ((typeof board) == "number") {
     // Lifewiki input
-    this.width = board;
-    this.height = height;
+    this.num_rows = board;
+    this.num_cols = num_cols;
+    this.grid = populate_grid_from_lifewiki(lifewiki_input)
   }
+  connect_neighbors_in(this.grid);
 
   this.size = function() { return me.grid.length };
 
   this.state = function() { 
     var serialized = [];
-    _(me.width).times(function(x) {
+    _(me.num_rows).times(function(x) {
       var row = [];
       serialized.push(row);
-      _(me.height).times(function(y) {
+      _(me.num_cols).times(function(y) {
         row.push(me.grid[x][y].alive ? 1 : 0);
       });
     });
