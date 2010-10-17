@@ -28,8 +28,11 @@ describe("A Game of Life grid of N x N dimensions", function() {
   });
 
   it("should be able to get the CellEcology at any position in the grid", function() {
-    expect(grid.get(0, 0)).toBeDefined();
-    expect(grid.get(1, 1)).toBeDefined();
+    _(2).times(function(x) {
+      _(2).times(function(y) {
+        expect(grid.get(x, y)).toBeDefined();
+      })
+    })
   });
 });
 
