@@ -49,16 +49,6 @@ describe("A 2 x 2 game of life", function() {
     ];
   });
 
-  it("should be able to transition to its next state", function() {
-    grid = new GameOfLifeGrid(input_state);
-    grid.iterate();
-    _(2).times(function(x) {
-      _(2).times(function(y) {
-        expect(grid.get(x,y).has_living_cell()).toBeTruthy();
-      });
-    });
-  });
-
   it("should assign all of the other cells as the neighbor to each cell", function() {
     // I hate this spec. But I also don't want to write this spec, sans inner loop, 4 times...
     // or sans outer loop 16 times.  Fuck... that... shit.
@@ -78,6 +68,26 @@ describe("A 2 x 2 game of life", function() {
           });
         });
       });
+    });
+  });
+
+  describe("after transitioning", function() {
+    beforeEach(function() {
+      grid = new GameOfLifeGrid(input_state);
+      grid.iterate();
+    });
+
+    it("should be in the transitioned state", function() {
+      _(2).times(function(x) {
+        _(2).times(function(y) {
+          expect(grid.get(x,y).has_living_cell()).toBeTruthy();
+        });
+      });
+    });
+
+    it("should be able to externalize its state correctly", function() {
+      grid.iterate();
+      expect(grid.state()).toEqual(expected_state);
     });
   });
 });
