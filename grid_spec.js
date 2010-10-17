@@ -5,7 +5,7 @@ describe("A Game of Life grid of N x N dimensions", function() {
       [1, 1],
       [1, 0]
     ];
-    grid = GameOfLifeGrid(input_state);
+    grid = new GameOfLifeGrid(input_state);
   });
 
   it("should expect a board of N x N as input_state", function() {
@@ -15,7 +15,7 @@ describe("A Game of Life grid of N x N dimensions", function() {
   it("should error when given an M x N as input_state", function() {
     input_state.push([0, 0]);
     expect(function() {
-      GameOfLifeGrid(input_state);
+      new GameOfLifeGrid(input_state);
     }).toThrow("M x N not allowed");
   });
 
@@ -36,7 +36,7 @@ describe("A Game of Life grid of N x N dimensions", function() {
   });
 });
 
-xdescribe("A 2 x 2 game of life", function() {
+describe("A 2 x 2 game of life", function() {
   var input_state, expected_state;
   beforeEach(function() {
     input_state = [
@@ -49,21 +49,29 @@ xdescribe("A 2 x 2 game of life", function() {
     ];
   });
 
-  it("should be able to transition to its next state", function() {
-    grid = GameOfLifeGrid(input_state);
+  xit("should be able to transition to its next state", function() {
+    grid = new GameOfLifeGrid(input_state);
     grid.iterate();
     expect(grid.state()).toEqual(expected_state);
   });
 
-  it("should assign neighbors to each cell when the grid is created", function() {
-    grid = GameOfLifeGrid(input_state);
+  it("should assign all of the other cells as the neighbor to each cell", function() {
+    grid = new GameOfLifeGrid(input_state);
     var x, y;
-    for(x = 0; x < 2; x++) {
-      for(y = 0; y < 2; y++) {
-        expect(grid.get(x, y).neighbors.length).toEqual(3);
-      }
-    }
-
+    _(2).times(function(x) {
+      _(2).times(function(y) {
+        var ecology = grid.get(x, y);
+        _(2).times(function(x_prime) {
+          _(2).times(function(y_prime) {
+            if (!(x == x_prime && y == y_prime)) {
+              var neighbor = grid.get(x_prime, y_prime);
+              expect(_(ecology.neighbors).include(neighbor))
+                .toBeTruthy("Cell doesn't have neighbor as neighbor");
+            }
+          });
+        });
+      });
+    });
   });
 });
 
@@ -79,7 +87,7 @@ xdescribe("A 3 x 3 game of life", function() {
       [0, 0, 0],
       [1, 0, 1]
     ];
-    grid = GameOfLifeGrid(input_state);
+    grid = new GameOfLifeGrid(input_state);
     grid.iterate();
     expect(grid.state()).toEqual(expected_state);
   });
