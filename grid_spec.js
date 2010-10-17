@@ -68,7 +68,7 @@ describe("A 2 x 2 game of life", function() {
             if (!(x == x_prime && y == y_prime)) {
               var neighbor = grid.get(x_prime, y_prime);
               expect(_(ecology.neighbors).include(neighbor))
-                .toBeTruthy("Cell doesn't have neighbor as neighbor");
+                .toBeTruthy("Cell doesn't have expected neighbor as neighbor");
             }
           });
         });
