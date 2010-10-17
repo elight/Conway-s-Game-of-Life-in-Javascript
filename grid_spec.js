@@ -12,6 +12,7 @@ describe("A Game of Life grid of N x N dimensions", function() {
     expect(grid).toBeDefined();
   });
 
+
   it("should know that it is of size N", function() {
     expect(grid.size()).toEqual(input_state.length);
   });
