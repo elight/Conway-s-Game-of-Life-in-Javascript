@@ -7,7 +7,7 @@ assert_cell_ecology = (args) ->
   describe "with " + num_neighbors + " living neighbors", ->
     beforeEach ->
       for i in [1..num_neighbors]
-        ecology.neighbors.push CellEcology cell_alive: true
+        ecology.neighbors.push(new CellEcology(cell_alive: true))
 
     it "should be " + predicate, ->
       expect(ecology["is_" + predicate]()).toEqual true
@@ -29,7 +29,7 @@ next_cell_state = (args) ->
 
 describe "A cell ecology", ->
   beforeEach -> 
-    ecology = CellEcology {cell_alive: true}
+    ecology = new CellEcology(cell_alive: true)
 
   it "should know whether the contained cell is alive or dead", ->
     expect(ecology.has_living_cell).toBeTruthy()
@@ -38,7 +38,7 @@ describe "A cell ecology", ->
     describe "with " + count + " living neighbors", ->
       beforeEach ->
         for i in [1..count]
-          ecology.neighbors.push CellEcology cell_alive: true 
+          ecology.add_neighbor new CellEcology(cell_alive: true) 
 
       it "should know it has " + count + " living neighbors", ->
         expect(ecology.num_living_neighbors()).toEqual count
@@ -46,7 +46,7 @@ describe "A cell ecology", ->
     describe "with " + count + " dead neighbors", ->
       beforeEach ->
         for i in [1..count]
-          ecology.neighbors.push CellEcology cell_alive: false
+          ecology.add_neighbor new CellEcology(cell_alive: false)
 
       it "should know it has 0 living neighbors", ->
         expect(ecology.num_living_neighbors()).toEqual 0
@@ -54,7 +54,7 @@ describe "A cell ecology", ->
 
 describe "A cell ecology containing a living cell", ->
   beforeEach ->
-    ecology = CellEcology cell_alive: true
+    ecology = new CellEcology(cell_alive: true)
 
   assert_cell_ecology with_living_neighbors:1, should_be: "underpopulated"
   assert_cell_ecology with_living_neighbors:2, should_be: "life_sustaining"
@@ -69,7 +69,7 @@ describe "A cell ecology containing a living cell", ->
 
 describe "A cell ecology containing a dead cell", ->
   beforeEach ->
-    ecology = CellEcology cell_alive: false
+    ecology = new CellEcology(cell_alive: false)
 
   assert_cell_ecology with_living_neighbors: 2, should_be: "life_sustaining"
   assert_cell_ecology with_living_neighbors: 3, should_be: "life_generating"
