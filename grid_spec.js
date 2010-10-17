@@ -12,13 +12,6 @@ describe("A Game of Life grid of N x N dimensions", function() {
     expect(grid).toBeDefined();
   });
 
-  it("should error when given an M x N as input_state", function() {
-    input_state.push([0, 0]);
-    expect(function() {
-      new GameOfLifeGrid(input_state);
-    }).toThrow("M x N not allowed");
-  });
-
   it("should know that it is of size N", function() {
     expect(grid.size()).toEqual(input_state.length);
   });

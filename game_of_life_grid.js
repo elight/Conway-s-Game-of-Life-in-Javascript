@@ -63,12 +63,6 @@ function GameOfLifeGrid(board) {
     });
   };
 
-  _(board.length).times(function(idx) {
-    if (board.length != board[idx].length) {
-      throw "M x N not allowed";
-    }
-  });
-
   var me = this;
   this.grid = populate_grid_from(board);
   connect_neighbors_in(this.grid);
