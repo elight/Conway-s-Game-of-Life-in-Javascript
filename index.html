@@ -13,44 +13,59 @@
     }
 
     table {
-      width: 800px;
-      height: 800px;
+      width: 1200px;
+      height: 1200px;
     }
   </style>
 </head>
-<body>
+<body style="background-color: white;">
 </body>
   <table id="grid">
   </table>
-  Gen: <label id="gen">Gen</label>
+  Gen: <label id="gen"></label>
   <script type="text/javascript">
-    var game = new GameOfLifeGrid([
-      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-      [0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-      [0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-      [0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    ]);
+    var lifewiki_str = (<here><![CDATA[
+.........................OO.....OO
+.........................OO.....OO
+
+
+
+
+
+
+
+
+
+
+
+...........................OO.OO
+..........................O.....O
+
+.........................O.......O
+.........................O..O.O..O
+.........................OOO...OOO
+
+
+
+
+.................O
+OO...............OO
+OO................OO
+.............OO..OO
+
+
+
+.............OO..OO
+OO................OO.......OO
+OO...............OO........OO
+.................O
+]]></here>).toString();
+    var game = new GameOfLifeGrid(38, 36, lifewiki_str);
 
     var $grid = $("#grid");
-    _(game.size()).times(function(x) {
+    _(game.num_rows).times(function(x) {
       $grid.append("<tr id='x" + x + "'/>");
-      _(game.size()).times(function(y) {
+      _(game.num_cols).times(function(y) {
         $("#x" + x).append("<td id='y" + y + "'/>");
       });
     });
@@ -60,11 +75,11 @@
 
     function any_cells_are_alive() {
       var retval = false;
-      _(game.size()).times(function(x) {
+      _(game.num_rows).times(function(x) {
         if (retval == true) {
           return;
         }
-        _(game.size()).times(function(y) {
+        _(game.num_cols).times(function(y) {
           if (game.get(x, y).has_living_cell()) {
             retval = true;
             return;
@@ -76,14 +91,14 @@
 
     function main_loop() {
       if(any_cells_are_alive()) {
-        _(game.size()).times(function(x) {
-          _(game.size()).times(function(y) {
+        _(game.num_rows).times(function(x) {
+          _(game.num_cols).times(function(y) {
             var $cell = $("#x" + x + " #y" + y);
             var ecology = game.get(x, y);
             if (ecology.has_living_cell()) {
               $cell.css("background-color", "green");
             } else {
-              $cell.css("background-color", "black");
+              $cell.css("background-color", "white");
             }
           });
         });
