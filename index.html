@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <title>Game of Life</title>
+  <script type="text/javascript" src="jquery-1.4.2.js"></script>
+  <script type="text/javascript" src="underscore.js"></script>
+  <script type="text/javascript" src="cell_ecology.js"></script>
+  <script type="text/javascript" src="game_of_life_grid.js"></script>
+  <style>
+    body {
+      margin: 0 auto;
+    }
+
+    table {
+      width: 800px;
+      height: 800px;
+    }
+  </style>
+</head>
+<body>
+</body>
+  <table id="grid">
+  </table>
+  <script type="text/javascript">
+    var game = new GameOfLifeGrid([
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ]);
+
+    var $grid = $("#grid");
+    _(game.size()).times(function(x) {
+      $grid.append("<tr id='x" + x + "'/>");
+      _(game.size()).times(function(y) {
+        $("#x" + x).append("<td id='y" + y + "'/>");
+      });
+    });
+
+    var cycle = 0;
+    var sleep = 100;
+
+    function any_cells_are_alive() {
+      var retval = false;
+      _(game.size()).times(function(x) {
+        if (retval == true) {
+          return;
+        }
+        _(game.size()).times(function(y) {
+          if (game.get(x, y).has_living_cell()) {
+            retval = true;
+            return;
+          }
+        });
+      });
+      return retval;
+    }
+
+    function main_loop() {
+      if(any_cells_are_alive()) {
+        _(game.size()).times(function(x) {
+          _(game.size()).times(function(y) {
+            var $cell = $("#x" + x + " #y" + y);
+            var ecology = game.get(x, y);
+            if (ecology.has_living_cell()) {
+              $cell.css("background-color", "green");
+            } else {
+              $cell.css("background-color", "black");
+            }
+          });
+        });
+        game.iterate();
+        cycle++;
+        _.delay(main_loop, sleep);
+      }
+    }
+
+    main_loop();
+  </script>
+
+</html>
+
+
