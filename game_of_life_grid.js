@@ -6,7 +6,7 @@ var GameOfLifeGrid = function(board) {
   return {
     size: function() { return board_size; },
     state: function() { return board; },
-    get: function() { return CellEcology({alive: true}) },
+    get: function() { return new CellEcology({alive: true}) },
     iterate: function() { 
       board = [
         [1, 1],

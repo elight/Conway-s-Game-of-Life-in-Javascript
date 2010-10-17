@@ -33,7 +33,7 @@ describe("A Game of Life grid of N x N dimensions", function() {
   });
 });
 
-describe("A 2 x 2 game of life", function() {
+xdescribe("A 2 x 2 game of life", function() {
   var input_state, expected_state;
   beforeEach(function() {
     input_state = [
@@ -64,7 +64,7 @@ describe("A 2 x 2 game of life", function() {
   });
 });
 
-describe("A 3 x 3 game of life", function() {
+xdescribe("A 3 x 3 game of life", function() {
   it("should be able to transition to its next state", function() {
     var input_state = [
       [1, 1, 1],
